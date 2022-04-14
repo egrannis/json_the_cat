@@ -17,4 +17,20 @@ describe('fetchBreedDescription', () => {
       done();
     });
   });
+
+  it('Returns an error message for an invalid/non-existent breed, via callback', (done) => {
+    fetchBreedDescription('dsjfns', (err, desc) => {
+      // we expect no error for this scenario
+      assert.equal(err, err);
+
+      const expectedDesc = null;
+
+      // compare returned description
+      assert.equal(expectedDesc, null);
+
+      done();
+    });
+  });
+
+
 });

@@ -1,19 +1,17 @@
 const request = require('request');
-const args = process.argv.slice(2);
-const breedName = args[0];
-let URL = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
 
 const fetchBreedDescription = function(breedName, callback) {
+  const URL = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
   request(URL, (error, response, body) => {
     if (error) {
       return callback(error, null); //error, which means we wouldn't get a desctiption, so descrip would be null
     }
     const data = JSON.parse(body); // need to manipulate body for query to come into play
     const breed = data[0];
-    if (breed) { // if breed exists, we want to find the description, if breed not found we want to say breed not found
-      return callback(null, breed.description);
-    } else {
+    if (!breed) { // if breed exists, we want to find the description, if breed not found we want to say breed not found
       return callback(`Failed to find breed: ${breedName}`);
+    } else {
+      return callback(null, breed.description);
     }
   });
 };
